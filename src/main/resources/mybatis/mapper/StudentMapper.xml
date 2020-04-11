@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.StudentMapper" >
+    <resultMap id="BaseResultMap" type="com.example.demo.model.Student" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id,name,code,create_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM student
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM student
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.model.Student" >
+        INSERT INTO
+        student
+        (name,code,create_time)
+        VALUES
+        (#{name}, #{code}, #{createtime})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.model.Student" >
+        UPDATE
+        student
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="code != null">code = #{code},</if>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long" >
+        DELETE FROM student
+        WHERE
+        id =#{id}
+    </delete>
+
+</mapper>
